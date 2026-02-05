@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BackToBase | The Future of Talent</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- 1. CSS VARIABLES & THEME --- */
+        /* CARDS for Talent Categories */
+#talent{
+    text-align: center;
+    padding-bottom: 40px;
+    padding-left: 50px;
+    padding-right: 50px;
+    width: 100%;
+            border-radius: 20px;
+            transition: var(--transition);
+}
+.cardsy {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.cardys {
+box-shadow: 0 4px 15px rgba(125, 42, 232, 0.4);
+  padding: 30px;
+  border-radius: 15px;
+  transition: 0.3s;
+}
+
+.cardys:hover {
+  transform: translateY(-10px);
+  background: #1b1b3a;
+}
+        :root {
+            --bg-dark: #050507;
+            --bg-deep-space: linear-gradient(to bottom, #020205, #080810);
+            --bg-panel: #13131a;
+            --primary: #7d2ae8; /* Cyber Purple */
+            --accent: #00f3ff; /* Neon Cyan */
+            --text-main: #ffffff;
+            --text-muted: #a0a0b0;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glow: 0 0 20px rgba(125, 42, 232, 0.5);
+            --gradient: linear-gradient(135deg, var(--primary), #2a8af6);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg-deep-space); /* Deep space gradient */
+            color: var(--text-main);
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        /* --- STARFIELD CANVAS --- */
+        #starCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2; /* Behind everything */
+            pointer-events: none;
+        }
+
+        /* --- ANIMATED BACKGROUND ORBS --- */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: -1;
+            opacity: 0.3; /* Lowered opacity to let stars shine */
+            animation: floatOrb 15s infinite alternate ease-in-out;
+            pointer-events: none;
+        }
+        .orb-1 {
+            top: -10%; left: -10%;
+            width: 500px; height: 500px;
+            background: var(--primary);
+        }
+        .orb-2 {
+            bottom: -10%; right: -10%;
+            width: 400px; height: 400px;
+            background: var(--accent);
+            animation-duration: 20s;
+            animation-delay: -5s;
+        }
+        @keyframes floatOrb {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 80px); }
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1, h2, h3, h4, .logo {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        ul { list-style: none; }
+        img { width: 100%; display: block; border-radius: 0; } /* Reset border radius for masonry */
+
+        /* --- UTILITIES --- */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section-padding { padding: 100px 0; }
+        
+        @media(max-width: 768px) {
+            .section-padding { padding: 60px 0; }
+        }
+
+        .text-center { text-align: center; }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 14px 35px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(125, 42, 232, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 243, 255, 0.4);
+        }
+
+        .btn-outline {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            backdrop-filter: blur(5px);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        .section-subtitle {
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* --- HEADER --- */
+        header {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 15px 0;
+            background: rgba(5, 5, 7, 0.8);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        nav { display: flex; justify-content: space-between; align-items: center; }
+
+       .logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    color: #C5A059;
+    /* Layer 1: Tight glow, Layer 2: Wide diffuse glow */
+    text-shadow: 
+        0 0 1px rgba(197, 160, 89, 1), 
+        0 0 1px rgba(197, 160, 89, 1), 
+        0 0 1px rgba(197, 160, 89, 1);
+}
+
+.logo span {
+    color: #00f3ff;
+    /* Cyan glow */
+    text-shadow: 
+        0 0 1px rgba(0, 243, 255, 1), 
+        0 0 1px rgba(0, 243, 255, 1), 
+        0 0 1px rgba(0, 243, 255, 1);
+}
+.logo small {
+    font-size: 0.4em; /* Sets size to 40% of the main logo */
+    letter-spacing: 2px; /* Reset spacing so it's readable */
+    margin-left: 2px; /* A tiny gap */
+    color: #ffffff;
+    /* Optional: Make the .xyz slightly less intense/opaque */
+    opacity: 0.8; 
+}
+        .nav-links { display: flex; gap: 40px; }
+        .nav-links a { font-size: 0.95rem; font-weight: 500; position: relative; }
+        .nav-links a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -5px; left: 0; background: var(--accent); transition: 0.3s; }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a:hover { color: var(--accent); }
+
+        .mobile-menu-btn { display: none; font-size: 1.5rem; cursor: pointer; color: white; }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            padding-top: 80px;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(500px) rotateX(60deg);
+            animation: gridMove 20s linear infinite;
+            z-index: -1;
+            mask-image: radial-gradient(circle, black 30%, transparent 70%);
+        }
+
+        @keyframes gridMove {
+            0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+            100% { transform: perspective(500px) rotateX(60deg) translateY(50px); }
+        }
+
+        .hero-content { z-index: 2; max-width: 900px; }
+        .hero h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.1; margin-bottom: 25px; font-weight: 800; }
+        .hero h1 span { color: var(--accent); text-shadow: 0 0 20px rgba(0, 243, 255, 0.3); }
+        .hero p { font-size: clamp(1rem, 2vw, 1.25rem); color: var(--text-muted); margin-bottom: 40px; max-width: 700px; margin-left: auto; margin-right: auto; }
+        .hero-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+
+        /* --- MARQUEE SECTION --- */
+        .marquee-container {
+            background: rgba(19, 19, 26, 0.9);
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 12px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 20s linear infinite;
+        }
+
+        .marquee-content span {
+            display: inline-block;
+            margin-right: 50px;
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        .marquee-content span i { color: var(--accent); margin-right: 8px; }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* --- GLASS CARDS (Common) --- */
+        .glass-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            border-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 40px -10px rgba(125, 42, 232, 0.3);
+        }
+
+        /* --- ABOUT --- */
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .mission-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 30px; }
+        .m-card i { font-size: 2rem; color: var(--accent); margin-bottom: 15px; }
+        .about-img-wrapper img { border: 2px solid var(--glass-border); border-radius: 50px; background-color: transparent; opacity: 0.5;}
+
+        /* --- TALENT GRID (Different from Gallery) --- */
+        .talent-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+        .talent-card { position: relative; height: 350px; border-radius: 20px; overflow: hidden; cursor: pointer; }
+        .talent-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; border-radius: 12px; }
+        .talent-card:hover img { transform: scale(1.1); }
+        .talent-overlay { position: absolute; bottom: 0; left: 0; width: 100%; padding: 30px 20px; background: linear-gradient(to top, rgba(0,0,0,0.95) 10%, transparent); transform: translateY(10px); transition: 0.4s; }
+        .talent-card:hover .talent-overlay { transform: translateY(0); }
+        .talent-overlay h3 { color: var(--accent); font-size: 1.4rem; margin-bottom: 5px; }
+
+        /* --- MASONRY GALLERY (User Specific Request) --- */
+        /* 1. The Container: Full width, specific breakpoint logic */
+        .masonry-feed {
+            width: 100%;
+            max-width: 1600px; /* Wider than standard container */
+            margin: 0 auto;
+            padding: 0 10px; /* Slight padding from edges */
+            
+            /* Default (Mobile) */
+            column-count: 3; 
+            column-gap: 4px; /* Tight gap as requested */
+        }
+
+        /* Tablet */
+        @media (min-width: 768px) {
+            .masonry-feed {
+                column-count: 4; 
+            }
+        }
+
+        /* Laptop */
+        @media (min-width: 1024px) {
+            .masonry-feed {
+                column-count: 6; 
+            }
+        }
+        
+        /* Large Screens */
+        @media (min-width: 1600px) {
+                .masonry-feed {
+                column-count: 7; 
+            }
+        }
+
+        /* 2. The Item */
+        .feed-item {
+            break-inside: avoid;
+            margin-bottom: 4px; /* Tight gap as requested */
+            position: relative;
+            border-radius: 4px;
+            overflow: hidden;
+            background-color: var(--glass-bg); /* Use theme bg instead of #1a1a1a */
+            cursor: pointer;
+            transition: filter 0.3s ease;
+        }
+
+        .feed-item:hover {
+            filter: brightness(1.2);
+        }
+
+        .feed-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 4px;
+        }
+
+        /* 3. The Overlay */
+        .feed-overlay {
+            position: absolute;
+            top: 0; 
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feed-item:hover .feed-overlay {
+            opacity: 1;
+        }
+        
+        .feed-overlay span {
+            border: 1px solid var(--accent); /* Theme Accent */
+            color: var(--accent);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            backdrop-filter: blur(4px);
+            font-family: 'Space Grotesk', sans-serif;
+            background: rgba(0, 243, 255, 0.1);
+        }
+
+        /* --- PROCESS --- */
+        .process-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 30px; }
+        .step-card { text-align: center; padding: 20px; position: relative; }
+        .step-icon { width: 70px; height: 70px; border-radius: 50%; background: linear-gradient(135deg, #222, #111); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 1.5rem; color: var(--primary); box-shadow: 0 5px 15px rgba(0,0,0,0.5); transition: var(--transition); }
+        .step-card:hover .step-icon { background: var(--primary); color: white; box-shadow: 0 0 25px var(--primary); }
+
+        /* --- EVENTS --- */
+        .event-card { background: #121218; border-radius: 16px; overflow: hidden; border: 1px solid #2a2a35; transition: var(--transition); }
+        .event-card:hover { border-color: var(--accent); transform: translateY(-5px); }
+        .event-details { padding: 25px; }
+        .event-tag { background: rgba(125, 42, 232, 0.1); color: var(--accent); padding: 5px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 700; display: inline-block; margin-bottom: 10px; }
+
+        /* --- TESTIMONIALS --- */
+        .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .testi-card { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); padding: 30px; border-radius: 20px; position: relative; }
+        .testi-header { display: flex; align-items: center; margin-bottom: 20px; }
+        .testi-img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; margin-right: 15px; border: 2px solid var(--accent); }
+        .testi-info h5 { color: white; margin-bottom: 2px; }
+        .testi-info span { color: var(--primary); font-size: 0.8rem; }
+        .quote-icon { position: absolute; top: 20px; right: 20px; font-size: 2rem; color: rgba(255, 255, 255, 0.05); }
+
+        /* --- FAQ --- */
+        .faq-wrapper { max-width: 800px; margin: 0 auto; }
+        .faq-item { background: var(--glass-bg); border: 1px solid var(--glass-border); margin-bottom: 15px; border-radius: 12px; overflow: hidden; transition: var(--transition); }
+        .faq-item:hover { border-color: var(--primary); }
+        .faq-question { padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #fff; }
+        .faq-question i { transition: 0.3s; color: var(--accent); }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; padding: 0 20px; color: var(--text-muted); line-height: 1.6; }
+        .faq-item.active .faq-answer { padding-bottom: 20px; max-height: 200px; }
+        .faq-item.active .faq-question i { transform: rotate(45deg); }
+
+        /* --- FORMS --- */
+        .join-wrapper { background: radial-gradient(circle at top right, #1a1a24, #0a0a0e); border: 1px solid var(--glass-border); padding: 50px; border-radius: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .form-group.full { grid-column: span 2; }
+        input, select, textarea { width: 100%; padding: 16px; background: #050507; border: 1px solid #333; color: #fff; border-radius: 10px; font-family: inherit; transition: 0.3s; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 10px rgba(0, 243, 255, 0.1); }
+
+        /* --- REVEAL ANIMATION --- */
+        .reveal { opacity: 0; transform: translateY(40px); transition: 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* --- FOOTER --- */
+        footer { background: #020203; padding: 80px 0 30px; border-top: 1px solid #222; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; }
+        .footer-col h4 { margin-bottom: 25px; color: white; }
+        .footer-col ul li { margin-bottom: 12px; }
+        .footer-col ul li a { color: var(--text-muted); font-size: 0.95rem; }
+        .footer-col ul li a:hover { color: var(--primary); padding-left: 5px; }
+
+        /* --- MOBILE --- */
+        @media (max-width: 992px) { .about-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) {
+            .mobile-menu-btn { display: block; z-index: 1001; }
+            .nav-links { position: fixed; top: 0; right: -100%; width: 75%; height: 100vh; background: rgba(10, 10, 15, 0.95); backdrop-filter: blur(20px); flex-direction: column; justify-content: center; align-items: center; transition: 0.4s ease; box-shadow: -10px 0 30px rgba(0,0,0,0.5); }
+            .nav-links.active { right: 0; }
+            .form-grid { grid-template-columns: 1fr; }
+            .form-group.full { grid-column: span 1; }
+            .hero-buttons { flex-direction: column; width: 100%; }
+            .hero-buttons .btn { width: 100%; text-align: center; }
+            .join-wrapper { padding: 30px 20px; }
+        }
+
+
+        /* SOCIAL */
+
+#joins{
+    text-align: center;
+}
+
+.social-links a {
+  display: inline-block;
+  margin: 15px;
+  color: #f5c77a;
+  text-decoration: none;
+  border: 1px solid #f5c77a;
+  padding: 10px 20px;
+  border-radius: 25px;
+  transition: 0.3s;
+}
+
+.social-links a:hover {
+  background: #f5c77a;
+  color: #000;
+}
+    </style>
+</head>
+<body>
+
+    <canvas id="starCanvas"></canvas>
+
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Backto<span>Base</span><small>xyz</small></div>
+                <ul class="nav-links">
+                    <li><a href="#home" onclick="closeMenu()">Home</a></li>
+                    <li><a href="#about" onclick="closeMenu()">About</a></li>
+                    <li><a href="#testimonials" onclick="closeMenu()">Stories</a></li>
+                    <li><a href="#gallery" onclick="closeMenu()">Gallery</a></li>
+                    <li><a href="#events" onclick="closeMenu()">Events</a></li>
+                    <li><a href="#faq" onclick="closeMenu()">FAQ</a></li>
+                    <li><a href="#join" onclick="closeMenu()" style="color:var(--accent)">Register</a></li>
+                </ul>
+                <div class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="container hero-content">
+
+            <p style="color: var(--accent); letter-spacing: 2px; font-weight: 600; text-transform: uppercase;">The Launchpad for Next-Gen Talent</p>
+            <h1>Connecting Raw Talent <br> with <span>Global Opportunities</span></h1>
+           <p>We don't just do things we involve you to learn by doing.</p>
+            <div class="hero-buttons">
+                <a href="https://www.linkedin.com/company/backtobasee/" class="btn btn-primary">Join the Ecosystem <i class="fas fa-arrow-right" style="margin-left: 8px;"></i></a>
+                <a href="#talent" class="btn btn-outline">Explore Categories</a>
+            </div>
+
+        </div>
+    </section>
+
+    <div class="marquee-container">
+        <div class="marquee-content">
+            <span><i class="fas fa-bolt"></i> NEW: City Music Fest Auditions Open</span>
+            <span><i class="fas fa-trophy"></i> HACKATHON: 24h Code Sprint starts Friday</span>
+            <span><i class="fas fa-star"></i> WORKSHOP: Public Speaking Masterclass - Seats filling fast</span>
+            <span><i class="fas fa-check-circle"></i> CONGRATS: Sarah J. landed a role at TechCorp</span>
+            <span><i class="fas fa-bolt"></i> NEW: City Music Fest Auditions Open</span>
+            <span><i class="fas fa-trophy"></i> HACKATHON: 24h Code Sprint starts Friday</span>
+            <span><i class="fas fa-star"></i> WORKSHOP: Public Speaking Masterclass - Seats filling fast</span>
+        </div>
+    </div>
+
+    <section id="about" class="section-padding reveal">
+        <div class="container">
+            <div class="about-grid">
+
+                <div class="about-img-wrapper">
+                    <img src="./announcement.png" alt="Team collaborating">
+                </div>
+                <div>
+                    <h2 class="section-title">Why BackToBase?</h2>
+                    <p class="section-subtitle" style="margin-left: 0;">Talent + Strategic Support = Exponential Growth</p>
+                    <p style="color: #ccc; margin-bottom: 20px;">
+                        The old model of "learn now, figure it out later" is broken. We built BackToBase to solve the gap between Theory and Praticality.
+                    </p>
+                    <div class="mission-grid">
+                        <div class="glass-card m-card">
+                            <i class="fas fa-rocket"></i>
+                            <h4>We don't Just Do things</h4>
+                            <p style="font-size: 0.9rem; color: #aaa; margin-top: 5px;">Enable talent to monetize skills and lead in the real world.</p>
+                        </div>
+                        <div class="glass-card m-card">
+                            <i class="fas fa-globe"></i>
+                            <h4>We involve you to learn by doing</h4>
+                            <p style="font-size: 0.9rem; color: #aaa; margin-top: 5px;">A borderless ecosystem of skilled, empowered individuals.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="gallery" class="section-padding reveal">
+        <div class="text-center" style="margin-bottom: 30px;">
+            <h2 class="section-title">Our Gallery</h2>
+            <p class="section-subtitle">Moments from the ecosystem.</p>
+        </div>
+        
+        <div class="masonry-feed">
+            <div class="feed-item"><img src="./announcement.png" loading="lazy"><div class="feed-overlay"><span>View</span></div></div>
+            <div class="feed-item"><img src="./img2.jpg" loading="lazy"><div class="feed-overlay"><span>View</span></div></div>
+            <div class="feed-item"><img src="./img3.png" loading="lazy"><div class="feed-overlay"><span>View</span></div></div>
+            <div class="feed-item"><img src="./img4.png" loading="lazy"><div class="feed-overlay"><span>View</span></div></div>
+            <div class="feed-item"><img src="./img5.jpg" loading="lazy"><div class="feed-overlay"><span>View</span></div></div>
+            <div class="feed-item"><img src="./3.jpg" loading="lazy"><div class="feed-overlay"><span>View</span></div></div>
+            <div class="feed-item"><img src="./img4.png" loading="lazy"><div class="feed-overlay"><span>View</span></div></div>
+            <div class="feed-item"><img src="./img2.jpg" loading="lazy"><div class="feed-overlay"><span>View</span></div></div>
+            <div class="feed-item"><img src="./4.jpg" loading="lazy"><div class="feed-overlay"><span>View</span></div></div>
+            <div class="feed-item"><img src="./all.jpeg" loading="lazy"><div class="feed-overlay"><span>View</span></div></div>
+            <div class="feed-item"><img src="./10.jpg" loading="lazy"><div class="feed-overlay"><span>View</span></div></div>
+            <div class="feed-item"><img src="./img4.png" loading="lazy"><div class="feed-overlay"><span>View</span></div></div>
+            <div class="feed-item"><img src="./img4.png" loading="lazy"><div class="feed-overlay"><span>View</span></div></div>
+            <div class="feed-item"><img src="./9.jpg" loading="lazy"><div class="feed-overlay"><span>View</span></div></div>
+            <div class="feed-item"><img src="./4.jpg" loading="lazy"><div class="feed-overlay"><span>View</span></div></div>
+            <div class="feed-item"><img src="./5.jpg" loading="lazy"><div class="feed-overlay"><span>View</span></div></div>
+            <div class="feed-item"><img src="./6.jpg" loading="lazy"><div class="feed-overlay"><span>View</span></div></div>
+            <div class="feed-item"><img src="./7.jpg" loading="lazy"><div class="feed-overlay"><span>View</span></div></div>
+            <div class="feed-item"><img src="./8.jpg" loading="lazy"><div class="feed-overlay"><span>View</span></div></div>
+            <div class="feed-item"><img src="./9.jpg" loading="lazy"><div class="feed-overlay"><span>View</span></div></div>
+             <div class="feed-item"><img src="./img3.png" loading="lazy"><div class="feed-overlay"><span>View</span></div></div>
+                         <div class="feed-item"><img src="./img5.jpg" loading="lazy"><div class="feed-overlay"><span>View</span></div></div>
+            <div class="feed-item"><img src="./10.jpg" loading="lazy"><div class="feed-overlay"><span>View</span></div></div>
+            <div class="feed-item"><img src="./img3.png" loading="lazy"><div class="feed-overlay"><span>View</span></div></div>
+            
+
+        </div>
+    </section>
+
+                <!-- TALENT -->
+<section id="talent" class="section dark reveal">
+  <h2>Our Programs</h2>
+  <div class="cardsy">
+    <div class="cardys">💻 Pratical Hands-on Learning Sessions</div>
+    <div class="cardys">🚀 Hackathons & Innovation Challenges</div>
+    <div class="cardys">🖌️ workshops & Bootcamps</div>
+    <div class="cardys">📸 Speaker sessions with Industry Experts</div>
+    <div class="cardys">🎤 Startups & Entrepreneurship meetups</div>
+    <div class="cardys">⚽career Guidance & mentorship programs</div>
+    <div class="cardys">💃 Talent showcase events</div>
+    <div class="cardys">🎨 Real world project building</div>
+    <div class="cardys">⚽ Networking meetups</div>
+    <div class="cardys">🎶 Many more...</div>
+  </div>
+</section>
+
+
+        <section id="about" class="section-padding reveal">
+        <div class="container">
+            <div class="about-grid">
+                <div>
+                    <h2 class="section-title">Dive in. Learn it</h2>
+                    <p class="section-subtitle" style="margin-left: 0;">We give you stage to showcase your talent</p>
+                    <p style="color: #ccc; margin-bottom: 20px;">
+                        If you have a talent, we have a platform for you to showcase it to the world. Join our ecosystem and take the first step towards turning your passion into a profession.
+                    </p>
+                    <div class="mission-grid">
+                        <div class="glass-card m-card">
+                            <i class="fas fa-rocket"></i>
+                            <h4>Online</h4>
+                            <p style="font-size: 0.9rem; color: #aaa; margin-top: 5px;">Enable talent to monetize skills and lead in the real world.</p>
+                        </div>
+                        <div class="glass-card m-card">
+                            <i class="fas fa-globe"></i>
+                            <h4>Offline</h4>
+                            <p style="font-size: 0.9rem; color: #aaa; margin-top: 5px;">A borderless ecosystem of skilled, empowered individuals.</p>
+                        </div>
+                    </div>
+                </div>
+                        <!-- TALENT -->
+<section id="talent" class="section dark reveal">
+  <h2>Weather you are </h2>
+  <div class="cardsy">
+    <div class="cardys">💻 Developer</div>
+    <div class="cardys">🚀 Content creator</div>
+    <div class="cardys">🖌️ Designer</div>
+    <div class="cardys">📸 Entrepreneur</div>
+    <div class="cardys">🎤 Speaker</div>
+    <div class="cardys"> Many more....</div>
+  </div>
+</section>
+            </div>
+        </div>
+    </section>
+<!-- 
+    <section id="talent" class="section-padding reveal">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-title">Where Do You Fit?</h2>
+                <p class="section-subtitle">Find your niche and start your journey to the top.</p>
+            </div>
+            <div class="talent-grid">
+                <div class="talent-card">
+                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Anchor">
+                    <div class="talent-overlay">
+                        <h3>Anchors & Speakers</h3>
+                        <p style="color:#ddd; font-size: 0.9rem;">Master public speaking, host major events, and build authority.</p>
+                    </div>
+                </div>
+                <div class="talent-card">
+                    <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Music">
+                    <div class="talent-overlay">
+                        <h3>Singers & Musicians</h3>
+                        <p style="color:#ddd; font-size: 0.9rem;">From garage jams to paid gigs. Get heard by the right people.</p>
+                    </div>
+                </div>
+                <div class="talent-card">
+                    <img src="https://images.unsplash.com/photo-1535525153412-5a42439a210d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Dance">
+                    <div class="talent-overlay">
+                        <h3>Performers & Dancers</h3>
+                        <p style="color:#ddd; font-size: 0.9rem;">Choreography projects, stage shows, and artistic direction.</p>
+                    </div>
+                </div>
+                <div class="talent-card">
+                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Tech">
+                    <div class="talent-overlay">
+                        <h3>Developers & Tech</h3>
+                        <p style="color:#ddd; font-size: 0.9rem;">Build startups, join hackathons, and freelance globally.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center" style="margin-top: 40px;">
+                <a href="#join" class="btn btn-outline">And Many More...</a>
+            </div>
+        </div>
+    </section> -->
+
+    <section class="section-padding reveal" style="background: rgba(255,255,255,0.02);">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-title">Your Growth Path</h2>
+                <p class="section-subtitle">A clear roadmap from registration to revenue.</p>
+            </div>
+            <div class="process-container">
+                <div class="step-card">
+                    <div class="step-icon"><i class="fas fa-user-plus"></i></div>
+                    <h3>1. Join</h3>
+                    <p style="color: #888; margin-top: 10px; font-size: 0.9rem;">Register and enter the talent pool.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-icon"><i class="fas fa-brain"></i></div>
+                    <h3>2. Train</h3>
+                    <p style="color: #888; margin-top: 10px; font-size: 0.9rem;">Sharpen skills with expert mentors.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-icon"><i class="fas fa-microphone-alt"></i></div>
+                    <h3>3. Perform</h3>
+                    <p style="color: #888; margin-top: 10px; font-size: 0.9rem;">Access live stages and projects.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-icon"><i class="fas fa-wallet"></i></div>
+                    <h3>4. Grow</h3>
+                    <p style="color: #888; margin-top: 10px; font-size: 0.9rem;">Grow your Network</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="events" class="section-padding reveal">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-title">Live Opportunities</h2>
+                <p class="section-subtitle">Gigs and events you can apply for today.</p>
+            </div>
+            <div class="talent-grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
+                <div class="event-card">
+                    <div style="height: 200px; overflow: hidden;">
+                        <img src="./all.jpeg" alt="Concert" style="border-radius:0;">
+                    </div>
+                    <div class="event-details">
+                        <span class="event-tag">Completed</span>
+                        <span style="float: right; color: #888; font-size: 0.8rem;">Dec 2025</span>
+                        <h3>WHY WHERE WHEN AI</h3>
+                        <p style="color: #aaa; margin: 10px 0; font-size: 0.9rem;">Students and industry expert intraction program what actually AI DO.</p>
+                        <a href="#" style="color: var(--accent); font-weight: 600; font-size: 0.9rem;">View Details &rarr;</a>
+                    </div>
+                </div>
+                                <div class="event-card">
+                    <div style="height: 200px; overflow: hidden;">
+                        <img src="./all2.jpeg" alt="Concert" style="border-radius:0;">
+                    </div>
+                    <div class="event-details">
+                        <span class="event-tag">Completed...</span>
+                        <span style="float: right; color: #888; font-size: 0.8rem;">Jan 31st 2026</span>
+                        <h3>What Ai Engineers Actually do..</h3>
+                        <p style="color: #aaa; margin: 10px 0; font-size: 0.9rem;">Required: 3 Opening Acts, 2 Hosts. Open to all registered musicians.</p>
+                        <a href="#" style="color: var(--accent); font-weight: 600; font-size: 0.9rem;">View Details &rarr;</a>
+                    </div>
+                </div>
+                                                <div class="event-card">
+                    <div style="height: 200px; overflow: hidden;">
+                        <img src="./e3.png" alt="Concert" style="border-radius:0;">
+                    </div>
+                    <div class="event-details">
+                        <span class="event-tag">Upcoming...</span>
+                        <span style="float: right; color: #888; font-size: 0.8rem;">Feb 14 2026</span>
+                        <h3>Agentic AI X Data analytics</h3>
+                        <p style="color: #aaa; margin: 10px 0; font-size: 0.9rem;">Required: 3 Opening Acts, 2 Hosts. Open to all registered musicians.</p>
+                        <a href="#" style="color: var(--accent); font-weight: 600; font-size: 0.9rem;">View Details &rarr;</a>
+                    </div>
+                </div>
+                <div class="event-card">
+                    <div style="height: 200px; overflow: hidden;">
+                        <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Tech" style="border-radius:0;">
+                    </div>
+                    <div class="event-details">
+                        <span class="event-tag" style="background: rgba(0, 243, 255, 0.1);">HACKATHON</span>
+                        <span style="float: right; color: #888; font-size: 0.8rem;">Feb 2026</span>
+                        <h3>Build the Vision</h3>
+                        <p style="color: #aaa; margin: 10px 0; font-size: 0.9rem;">Coming soon...</p>
+                        <a href="#" style="color: var(--accent); font-weight: 600; font-size: 0.9rem;">View Details &rarr;</a>
+                    </div>
+                </div>
+                    <div class="event-card">
+                    <div style="height: 200px; overflow: hidden;">
+                        <img src="https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Concert" style="border-radius:0;">
+                    </div>
+                    <div class="event-details">
+                        <span class="event-tag">Up Coming...</span>
+                        <span style="float: right; color: #888; font-size: 0.8rem;">Feb 2026</span>
+                        <h3>Creators Hub</h3>
+                        <p style="color: #aaa; margin: 10px 0; font-size: 0.9rem;">Coming Soon..</p>
+                        <a href="#" style="color: var(--accent); font-weight: 600; font-size: 0.9rem;">View Details &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- <section id="testimonials" class="section-padding reveal">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-title">Success Stories</h2>
+                <p class="section-subtitle">Hear from the talent that launched with us.</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testi-card">
+                    <i class="fas fa-quote-right quote-icon"></i>
+                    <div class="testi-header">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" class="testi-img">
+                        <div class="testi-info">
+                            <h5>Elena Rodriguez</h5>
+                            <span>Freelance Illustrator</span>
+                        </div>
+                    </div>
+                    <p style="color: #ccc; font-size: 0.95rem;">"BackToBase gave me the confidence to price my art correctly. Within 3 months of joining, I landed my first international contract."</p>
+                </div>
+                <div class="testi-card">
+                    <i class="fas fa-quote-right quote-icon"></i>
+                    <div class="testi-header">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="testi-img">
+                        <div class="testi-info">
+                            <h5>Marcus Chen</h5>
+                            <span>Full Stack Dev</span>
+                        </div>
+                    </div>
+                    <p style="color: #ccc; font-size: 0.95rem;">"The hackathon opportunities here are unmatched. I met my co-founder at a B2B event last year. Truly life-changing."</p>
+                </div>
+                <div class="testi-card">
+                    <i class="fas fa-quote-right quote-icon"></i>
+                    <div class="testi-header">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="User" class="testi-img">
+                        <div class="testi-info">
+                            <h5>Sarah Johnson</h5>
+                            <span>Public Speaker</span>
+                        </div>
+                    </div>
+                    <p style="color: #ccc; font-size: 0.95rem;">"I had the voice but not the stage. BackToBase provided the platform. Now I host events for major tech firms."</p>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+    
+
+    <section id="faq" class="section-padding reveal">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-title">Common Questions</h2>
+                <p class="section-subtitle">Everything you need to know about the platform.</p>
+            </div>
+            <div class="faq-wrapper">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Is there a fee to join BackToBase?
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Registration is currently free for early adopters. Some advanced masterclasses and certification programs may have a fee, but access to the gig network is free.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        What's the vision of BackToBase?
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <div class="faq-answer">
+                        We are building a powerhouse community where dreams meet guidance. Whether you have the skill but lack the confidence, or the dream but lack the map, we provide the Mentorship, Network, and Real-World Opportunities to bridge the gap.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        I am a beginner. Can I still join?
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Absolutely! We have a dedicated "Train" phase. You can access mentorship, workshops, and beginner-friendly projects to build your portfolio before taking on paid work.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        What BacktoBase Doing Practically?
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <div class="faq-answer">
+                        YWorkshops & Events, Hackathons, Live Projects, Networking Meetups, Mentorship Programs, Talent Showcases.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- <section id="join" class="section-padding reveal">
+        <div class="container">
+            <div class="join-wrapper">
+                <div class="text-center">
+                    <h2 class="section-title">Ready to Launch?</h2>
+                    <p style="margin-bottom: 30px; color: #bbb;">Fill the form below. We'll match you with the right opportunities.</p>
+                </div>
+                <form>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label style="font-size: 0.8rem; margin-bottom: 5px; display: block; color: #888;">Full Name</label>
+                            <input type="text" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label style="font-size: 0.8rem; margin-bottom: 5px; display: block; color: #888;">Email Address</label>
+                            <input type="email" placeholder="john@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label style="font-size: 0.8rem; margin-bottom: 5px; display: block; color: #888;">Phone Number</label>
+                            <input type="tel" placeholder="+91 98765 43210" required>
+                        </div>
+                        <div class="form-group">
+                            <label style="font-size: 0.8rem; margin-bottom: 5px; display: block; color: #888;">Primary Skill</label>
+                            <select>
+                                <option value="" disabled selected>Select Category</option>
+                                <option>Anchor / Host</option>
+                                <option>Musician / Singer</option>
+                                <option>Dancer</option>
+                                <option>Developer / Designer</option>
+                                <option>Content Creator</option>
+                            </select>
+                        </div>
+                        <div class="form-group full">
+                            <label style="font-size: 0.8rem; margin-bottom: 5px; display: block; color: #888;">Tell us about yourself</label>
+                            <textarea rows="4" placeholder="Your experience, goals, and what you are looking for..."></textarea>
+                        </div>
+                        <div class="form-group full text-center">
+                            <button type="submit" class="btn btn-primary" style="width: 100%; max-width: 400px; padding: 18px;">
+                                Submit Application
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section> -->
+
+
+           <!-- JOIN -->
+<section id="joins" class="section dark reveal">
+  <h2>Join Our Community</h2>
+  <p>
+    We don’t just teach.  
+    We give you a stage, a network, and real chances to grow.
+  </p>
+
+  <div class="social-links">
+    <a href="https://www.linkedin.com/company/backtobasee/" target="_blank">LinkedIn</a>
+    <a href="https://www.youtube.com/@backtobase_xyz" target="_blank">YouTube</a>
+    <a href="https://www.instagram.com/backtobase_xyz/" target="_blank">Instagram</a>
+  </div>
+</section>
+
+ 
+
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                   <div class="logo">Backto<span>Base</span><small>.xyz</small></div>
+                    <p style="color: #777; margin-top: 20px; font-size: 0.9rem; line-height: 1.8;">
+                        Empowering the next generation of creators and leaders. We bridge the gap between passion and profession.
+                    </p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#about">About Mission</a></li>
+                        <li><a href="#talent">Talent Pool</a></li>
+                        <li><a href="#events">Live Events</a></li>
+                        <li><a href="#join">Registration</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Get in Touch</h4>
+                    <ul style="color: #aaa; font-size: 0.9rem;">
+                        <li><i class="fas fa-envelope" style="margin-right: 10px; color: var(--primary);"></i> backtobase923@gmail.com</li>
+                        <li><i class="fas fa-map-marker-alt" style="margin-right: 10px; color: var(--primary);"></i> Remote</li>
+                    </ul>
+                    <div style="margin-top: 20px; display: flex; gap: 15px;">
+                        <a href="#" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; border-radius: 50%;"><i class="fab fa-instagram"></i></a>
+                        <a href="#" style="width: 40px; height: 40px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; border-radius: 50%;"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center" style="border-top: 1px solid #222; padding-top: 30px; margin-top: 50px; color: #444; font-size: 0.8rem;">
+                &copy; 2024 BackToBase Ecosystem. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- 1. STARFIELD ANIMATION SCRIPT ---
+        const canvas = document.getElementById('starCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height, stars = [];
+
+        function initCanvas() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+            createStars();
+        }
+
+        function createStars() {
+            stars = [];
+            const starCount = Math.floor(width * height / 3000); 
+            for (let i = 0; i < starCount; i++) {
+                stars.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    radius: Math.random() * 1.5,
+                    opacity: Math.random(),
+                    speed: Math.random() * 0.2 + 0.05,
+                    flicker: Math.random() * 0.02
+                });
+            }
+        }
+
+        function animateStars() {
+            ctx.clearRect(0, 0, width, height);
+            stars.forEach(star => {
+                star.opacity += star.flicker;
+                if (star.opacity > 1 || star.opacity < 0.2) star.flicker = -star.flicker;
+                star.y -= star.speed; 
+                if (star.y < 0) {
+                    star.y = height;
+                    star.x = Math.random() * width;
+                }
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+                ctx.shadowBlur = 5;
+                ctx.shadowColor = "white";
+                ctx.fill();
+            });
+            requestAnimationFrame(animateStars);
+        }
+
+        window.addEventListener('resize', initCanvas);
+        initCanvas();
+        animateStars();
+
+        // --- 2. FAQ ACCORDION LOGIC ---
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                item.classList.toggle('active');
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item) otherItem.classList.remove('active');
+                });
+            });
+        });
+
+        // --- 3. MOBILE MENU & REVEAL LOGIC ---
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        const icon = mobileBtn.querySelector('i');
+
+        mobileBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            if(navLinks.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        function closeMenu() {
+            navLinks.classList.remove('active');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        }
+
+        window.addEventListener('scroll', reveal);
+        function reveal() {
+            var reveals = document.querySelectorAll('.reveal');
+            var windowHeight = window.innerHeight;
+            var elementVisible = 150;
+            for (var i = 0; i < reveals.length; i++) {
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add('active');
+                }
+            }
+        }
+        reveal();
+    </script>
+</body>
+</html>
