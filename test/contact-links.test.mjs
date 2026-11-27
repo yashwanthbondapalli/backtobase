@@ -7,7 +7,7 @@ test("mailto drafts preserve encoded subject and body text", () => {
   const [recipient, query] = url.slice("mailto:".length).split("?");
   const params = new URLSearchParams(query);
 
-  assert.equal(recipient, "backtobase2025@gmail.com");
+  assert.equal(recipient, "backtobase923@gmail.com");
   assert.equal(params.get("subject"), "Hello there");
   assert.equal(params.get("body"), "First line\nSecond line & more");
 });
